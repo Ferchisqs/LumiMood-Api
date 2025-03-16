@@ -15,7 +15,7 @@ const register = async (req, res) => {
 
     const userId = await User.create(name, email, hashedPassword, role);
 
-    res.status(201).json({ message: 'Usuario registrado exitosamente', userId });
+    res.status(201).json({name, email, role});
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
@@ -41,7 +41,7 @@ const login = async (req, res) => {
       { expiresIn: '24h' }
     );
 
-    res.json({ message: 'Inicio de sesión exitoso', token });
+    res.json({ email , token });
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }

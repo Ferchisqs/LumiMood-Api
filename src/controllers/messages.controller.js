@@ -9,8 +9,8 @@ const askQuestion = async (req, res) => {
       return res.status(400).json({ message: 'Falta la pregunta' });
     }
 
-    const messageId = await Message.create(userId, question);
-    res.status(201).json({ message: 'Pregunta enviada', messageId });
+    await Message.create(userId, question);
+    res.status(201).json({question});
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
@@ -25,7 +25,7 @@ const answerQuestion = async (req, res) => {
     }
 
     await Message.respond(messageId, response);
-    res.json({ message: 'Respuesta guardada' });
+    res.json({messageId, response});
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
