@@ -1,10 +1,10 @@
 const db = require('../config/db');
 
 class User {
-  static async create(name, email, hashedPassword, role = 'user') {
+  static async create(name, email, hashedPassword, role = 'user', fcmToken) {
     const [result] = await db.execute(
-      'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
-      [name, email, hashedPassword, role]
+      'INSERT INTO users (name, email, password, role, fcmToken) VALUES (?, ?, ?, ?, ?)',
+      [name, email, hashedPassword, role , fcmToken]
     );
     return result.insertId;
   }

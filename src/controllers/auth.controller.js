@@ -1,10 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
+const { use } = require('../routes/auth.routes');
 
 const register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role , fcmToken } = req.body;
 
     const existingUser = await User.findByEmail(email);
     if (existingUser) {
@@ -13,9 +14,9 @@ const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const userId = await User.create(name, email, hashedPassword, role);
+    await User.create(name, email, hashedPassword, role, fcmToken);
 
-    res.status(201).json({ message: 'Usuario registrado exitosamente', userId });
+    res.status(201).json({name, email, role , fcmToken});
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
@@ -41,7 +42,7 @@ const login = async (req, res) => {
       { expiresIn: '24h' }
     );
 
-    res.json({ message: 'Inicio de sesión exitoso', token });
+    res.json({ email , token , fcmToken: user.fcmToken });
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }

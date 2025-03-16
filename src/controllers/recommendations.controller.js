@@ -8,8 +8,8 @@ const addRecommendation = async (req, res) => {
       return res.status(400).json({ message: 'Faltan datos' });
     }
 
-    const recommendationId = await Recommendation.create(title, description);
-    res.status(201).json({ message: 'Recomendación agregada', recommendationId });
+   await Recommendation.create(title, description);
+    res.status(201).json({ title, description});
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
