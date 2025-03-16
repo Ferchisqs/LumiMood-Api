@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', authMiddleware, askQuestion); // Enviar pregunta
 router.post('/answer', authMiddleware, answerQuestion); // Responder pregunta
 router.get('/', authMiddleware, getUserMessages); // Ver mensajes
-router.get('/messages/:messageId', getMessageById); // Asegúrate de tener esta línea bien definida
+router.get('/:messageId', getMessageById); // Asegúrate de tener esta línea bien definida
 
 
 
