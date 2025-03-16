@@ -13,7 +13,7 @@ const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const userId = await User.create(name, email, hashedPassword, role);
+    await User.create(name, email, hashedPassword, role);
 
     res.status(201).json({name, email, role});
   } catch (error) {
