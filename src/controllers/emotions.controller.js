@@ -10,7 +10,7 @@ const addEmotion = async (req, res) => {
     }
 
     await Emotion.create( emotion, color);
-    res.status(201).json({ message: 'Emoción registrada', emotionId });
+    res.status(201).json({emotion, color});
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
