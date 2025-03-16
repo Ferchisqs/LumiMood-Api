@@ -40,5 +40,22 @@ const getUserMessages = async (req, res) => {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
 };
+const getMessageById = async (req, res) => {
+  try {
+    const { messageId } = req.params; // Obtener el ID del mensaje desde los parámetros
 
-module.exports = { askQuestion, answerQuestion, getUserMessages };
+    const message = await Message.getById(messageId); // Llamar al método del modelo
+
+    if (!message) {
+      return res.status(404).json({ message: 'Mensaje no encontrado' });
+    }
+
+    res.json(message);
+  } catch (error) {
+    res.status(500).json({ message: 'Error en el servidor', error });
+  }
+};
+
+
+
+module.exports = { askQuestion, answerQuestion, getUserMessages,getMessageById };

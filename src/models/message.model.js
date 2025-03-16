@@ -1,5 +1,4 @@
 const db = require('../config/db');
-
 class Message {
   static async create(userId, question) {
     const [result] = await db.execute(
@@ -19,6 +18,15 @@ class Message {
       [userId]
     );
     return rows;
+  }
+
+  // Nuevo método para obtener un mensaje por ID
+  static async getById(messageId) {
+    const [rows] = await db.execute(
+      'SELECT id, user_id, question, response, created_at FROM messages WHERE id = ?',
+      [messageId]
+    );
+    return rows[0]; // Devolver el primer resultado si existe
   }
 }
 
