@@ -9,9 +9,9 @@ const addEmotion = async (req, res) => {
       return res.status(400).json({ message: 'Faltan datos' });
     }
 
-    const response = await Emotion.create( emotion, color);
+    const response = await Emotion.create( userId ,emotion, color);
 
-    res.status(201).json({response});
+    res.status(201).json({emotion, color});
 
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
