@@ -16,7 +16,7 @@ const register = async (req, res) => {
 
     await User.create(name, email, hashedPassword, role, fcmToken);
 
-    res.status(201).json({name, email, role});
+    res.status(201).json({name, email, role , fcmToken});
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
