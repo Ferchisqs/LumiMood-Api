@@ -20,13 +20,13 @@ class Message {
     return rows;
   }
 
-  // Nuevo método para obtener un mensaje por ID
+
   static async getById(messageId) {
     const [rows] = await db.execute(
       'SELECT id, user_id, question, response, created_at FROM messages WHERE id = ?',
       [messageId]
     );
-    return rows[0]; // Devolver el primer resultado si existe
+    return rows[0]; 
   }
 }
 

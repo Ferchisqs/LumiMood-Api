@@ -42,9 +42,9 @@ const getUserMessages = async (req, res) => {
 };
 const getMessageById = async (req, res) => {
   try {
-    const { messageId } = req.params; // Obtener el ID del mensaje desde los parámetros
+    const { messageId } = req.params; 
 
-    const message = await Message.getById(messageId); // Llamar al método del modelo
+    const message = await Message.getById(messageId); 
 
     if (!message) {
       return res.status(404).json({ message: 'Mensaje no encontrado' });
