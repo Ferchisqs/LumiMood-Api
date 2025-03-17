@@ -40,6 +40,7 @@ const getUserMessages = async (req, res) => {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
 };
+
 const getMessageById = async (req, res) => {
   try {
     const { messageId } = req.params; 
@@ -56,6 +57,4 @@ const getMessageById = async (req, res) => {
   }
 };
 
-
-
-module.exports = { askQuestion, answerQuestion, getUserMessages,getMessageById };
+module.exports = { askQuestion, answerQuestion, getUserMessages, getMessageById };
