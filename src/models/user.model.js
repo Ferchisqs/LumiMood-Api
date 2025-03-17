@@ -20,8 +20,8 @@ class User {
   }
 
   static async getAllTokens() {
-    const [rows] = await db.execute('SELECT fcm_token FROM users WHERE fcm_token IS NOT NULL');
-    return rows.map(row => row.fcm_token);
+    const [rows] = await db.execute('SELECT fcmToken FROM users WHERE fcmToken IS NOT NULL');
+    return rows.map(row => row.fcmToken);
   }
 }
 

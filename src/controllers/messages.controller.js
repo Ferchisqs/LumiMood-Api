@@ -19,23 +19,39 @@ const askQuestion = async (req, res) => {
     const tokens = await User.getAllTokens();
 
     if (tokens.length > 0) {
+      // Crea el mensaje de notificación
       const payload = {
         notification: {
           title: 'Nueva Pregunta',
           body: `Usuario con ID ${userId} ha realizado una nueva pregunta: "${question}"`,
-        },
+        }
       };
 
       // Enviar la notificación a todos los tokens
-      await admin.messaging().sendToDevice(tokens, payload);
+      const promises = tokens.map((token) => {
+        if (token) { // Verifica que el token no esté vacío
+          return admin.messaging().send({
+            ...payload,
+            token: token,  // Usamos el token de cada usuario
+          });
+        }
+      });
+
+      // Esperamos a que todas las notificaciones se envíen
+      try {
+        const results = await Promise.all(promises);
+        console.log('Notificaciones enviadas:', results);
+      } catch (error) {
+        console.error('Error al enviar notificaciones:', error);
+      }
     }
 
     res.status(201).json({ messageId, question });
   } catch (error) {
-    res.status(500).json({ message: 'Error en el servidor', error });
+    console.error(error);  // Muestra el error en la consola
+    res.status(500).json({ message: 'Error en el servidor', error: error.message }); // Devuelve el mensaje de error
   }
 };
-
 
 const answerQuestion = async (req, res) => {
   try {
@@ -46,7 +62,7 @@ const answerQuestion = async (req, res) => {
     }
 
     await Message.respond(messageId, response);
-    res.json({messageId, response});
+    res.json({ messageId, response });
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error });
   }
