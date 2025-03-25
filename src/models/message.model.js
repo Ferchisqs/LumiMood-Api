@@ -20,6 +20,13 @@ class Message {
     );
     return rows;
   }
+
+  static async getAll() {
+    const [rows] = await db.execute(
+      'SELECT * FROM messages'
+    );
+    return rows;
+  }
 }
 
 module.exports = Message;

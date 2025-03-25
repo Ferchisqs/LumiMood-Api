@@ -1,27 +1,41 @@
-const db = require('../config/db');
+const db = require("../config/db");
 
 class User {
-  static async create(name, email, hashedPassword, role = 'user', fcmToken) {
+  static async create(name, email, hashedPassword, role = "user", fcmToken) {
     const [result] = await db.execute(
-      'INSERT INTO users (name, email, password, role, fcmToken) VALUES (?, ?, ?, ?, ?)',
-      [name, email, hashedPassword, role , fcmToken]
+      "INSERT INTO users (name, email, password, role, fcmToken) VALUES (?, ?, ?, ?, ?)",
+      [name, email, hashedPassword, role, fcmToken]
     );
     return result.insertId;
   }
 
   static async findByEmail(email) {
-    const [rows] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
+    const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
     return rows.length > 0 ? rows[0] : null;
   }
 
   static async findById(id) {
-    const [rows] = await db.execute('SELECT id, name, email, role FROM users WHERE id = ?', [id]);
+    const [rows] = await db.execute(
+      "SELECT id, name, email, role FROM users WHERE id = ?",
+      [id]
+    );
     return rows.length > 0 ? rows[0] : null;
   }
 
   static async getAllTokens() {
-    const [rows] = await db.execute('SELECT fcmToken FROM users WHERE fcmToken IS NOT NULL');
-    return rows.map(row => row.fcmToken);
+    const [rows] = await db.execute(
+      "SELECT fcmToken FROM users WHERE fcmToken IS NOT NULL"
+    );
+    return rows.map((row) => row.fcmToken);
+  }
+
+  // Añade esto a user.model.js
+  static async removeToken(token) {
+    await db.execute("UPDATE users SET fcmToken = NULL WHERE fcmToken = ?", [
+      token,
+    ]);
   }
 }
 
